@@ -14,8 +14,6 @@ ENV JRE ${JAVA_HOME}/jre
 ENV JAVA_OPTS=-Djava.awt.headless=true PATH=${PATH}:${JRE}/bin:${JAVA_HOME}/bin
 ENV ENV=/etc/shinit.sh
 
-COPY shinit.sh /etc/
-
 WORKDIR /tmp
 
 # combine work from delitescere/jdk, frol/docker-alpine-glibc and shinyproxy
