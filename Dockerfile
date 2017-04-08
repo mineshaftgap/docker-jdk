@@ -1,6 +1,6 @@
 FROM alpine:3.5
 
-# combine work from delitescere/jdk, frol/docker-alpine-glibc
+# combine work from delitescere/jdk, frol/docker-alpine-glibc and shinyproxy
 
 ENV LANG=C.UTF-8
 
@@ -8,6 +8,8 @@ ENV JAVA_HOME /usr/local/java
 ENV JRE ${JAVA_HOME}/jre
 ENV JAVA_OPTS=-Djava.awt.headless=true PATH=${PATH}:${JRE}/bin:${JAVA_HOME}/bin
 ENV ENV=/etc/shinit.sh
+
+COPY shinit.sh /etc/
 
 WORKDIR /tmp
 
