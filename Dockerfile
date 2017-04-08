@@ -1,13 +1,8 @@
 FROM alpine:3.5
 
-# this is an attempt to get the smallest JDK available, combining frol/docker-alpine-glibc and delitescere/docker-zulu
+# combine work from delitescere/jdk, frol/docker-alpine-glibc
 
-# blatantly stolen from: https://github.com/frol/docker-alpine-glibc
-# blatantly stolen from: https://github.com/delitescere/docker-zulu
-
-# Here we use several hacks collected from https://github.com/gliderlabs/docker-alpine/issues/11:
-# 1. install GLibc (which is not the cleanest solution at all)
-# 2. hotfix /etc/nsswitch.conf, which is apperently required by glibc and is not used in Alpine Linux
+ENV LANG=C.UTF-8
 
 ENV JAVA_HOME /usr/local/java
 ENV JRE ${JAVA_HOME}/jre
@@ -16,13 +11,14 @@ ENV ENV=/etc/shinit.sh
 
 WORKDIR /tmp
 
-# combine work from delitescere/jdk, frol/docker-alpine-glibc and shinyproxy
 RUN \
 
 ################################################################################
 # 1. SETUP GLIBC
 #
+################################################################################
 # blatantly stolen from: https://github.com/frol/docker-alpine-glibc
+#   Here we install GNU libc (aka glibc) and set C.UTF-8 locale as default.
 ################################################################################
     ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
     ALPINE_GLIBC_PACKAGE_VERSION="2.25-r0" && \
@@ -84,6 +80,8 @@ RUN \
     chmod a+w ${JRE}/lib ${JRE}/lib/net.properties && \
     apk del ca-certificates openssl wget  && \
     rm -rf /tmp/* /var/cache/apk/* && \
-    java -version 
+    java -version
 
 WORKDIR /root
+
+# java -jar /root/shinyproxy.jar
