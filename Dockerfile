@@ -86,22 +86,6 @@ RUN \
     chmod a+w ${JRE}/lib ${JRE}/lib/net.properties && \
     apk del ca-certificates openssl wget  && \
     rm -rf /tmp/* /var/cache/apk/* && \
-    java -version && \
-
-################################################################################
-# 3. SETUP ShinyProxy
-#
-# https://github.com/openanalytics/shinyproxy
-################################################################################
-    SHINYPROXY_VERSION=0.8.7 && \
-    wget https://github.com/openanalytics/shinyproxy/archive/v$SHINYPROXY_VERSION.zip -O sp.zip && \
-    unzip sp.zip && \
-    cd shinyproxy-$SHINYPROXY_VERSION && \
-    chmod u+x mvnw && \
-    ./mvnw -U clean install && \
-    cp ./target/shinyproxy-$SHINYPROXY_VERSION.jar /root/shinyproxy.jar && \
-    rm -rf shinyproxy-master sp.zip
+    java -version 
 
 WORKDIR /root
-
-# java -jar /root/shinyproxy.jar
