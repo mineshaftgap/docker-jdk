@@ -14,7 +14,6 @@ COPY shinit.sh /etc/
 WORKDIR /tmp
 
 RUN \
-
 ################################################################################
 # 1. SETUP GLIBC
 #
@@ -47,7 +46,6 @@ RUN \
     apk del glibc-i18n && \
     \
     rm "/root/.wget-hsts" && \
-    apk del .build-dependencies && \
     rm \
         "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
@@ -60,7 +58,6 @@ RUN \
 ################################################################################
     echo ipv6 >> /etc/modules && \
     echo 'http://dl-2.alpinelinux.org/alpine/v3.3/main/' > /etc/apk/repositories && \
-    apk add --no-cache --virtual=build-dependencies ca-certificates wget && \
     sed -i -e 's#:/bin/[^:].*$#:/sbin/nologin#' /etc/passwd && \
     chmod a=rx /etc/shinit.sh && \
     checksum="3f95d82bf8ece272497ae2d3c5b56c3b" && \
@@ -80,7 +77,8 @@ RUN \
     rm -rf *.zip demo man sample && \
     for ff in ${JAVA_HOME}/bin/*; do f=$(basename $ff); if [ -e ${JRE}/bin/$f ]; then ln -snf ${JRE}/bin/$f $ff; fi; done && \
     chmod a+w ${JRE}/lib ${JRE}/lib/net.properties && \
-    apk del ca-certificates openssl wget  && \
+    apk del .build-dependencies && \
+    apk del openssl  && \
     rm -rf /tmp/* /var/cache/apk/* && \
     java -version
 
